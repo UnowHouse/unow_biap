@@ -2,7 +2,7 @@
 
 import tornado.web
 from tornado.escape import json_encode,json_decode
-from utils.common_util import valid_file_size
+import utils.common_util as common_util
 import utils.result_view_util as result_utils 
 # 导入人数检测模块
 # import ....
@@ -20,8 +20,9 @@ class FaceCountHandler(tornado.web.RequestHandler):
 		if not result_utils.is_valid_json(result_utils.get_require_data(),request_body):
 			self.write(json_encode(result_utils.error('20004')))
 			return
-		if valid_file_size(request_body['file']['data'],2):	
+		if common_util.valid_file_size(request_body['file']['data'],2):	
 			img_arr = common_util.base64_2_array(request_body['file']['data'])
+			print(img_arr,type(img_arr))
 			# 
 			# 将img_arr 传入 ’检测函数‘
 			# 将输出的检测结果(假如名为detect_result)作为参数 传入下方success函数
